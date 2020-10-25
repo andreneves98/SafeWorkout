@@ -1,5 +1,5 @@
 # SafeWorkout
-Mobile application developed in Flutter.
+Mobile application developed in Flutter within the scope of Mobile Computing course.
 
 ## Application Context:
 With the pandemic we are living in, there are a lot of people that became sedentary or are losing their motivation to work out.  Gyms are still a place that most are afraid to attend because it is a common place where people tend to gather. For that reason, working out at home or outside becomes a reasonable solution and probably healthier. 
