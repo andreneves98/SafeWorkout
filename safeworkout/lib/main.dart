@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safeworkout/mapController.dart';
 import 'package:safeworkout/webview_container.dart';
 
 void main() => runApp(MyApp());
@@ -39,10 +40,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'Index 1: Search',
       style: optionStyle,
     ),
-    Text(
+    /*Text(
       'Index 2: Map',
       style: optionStyle,
-    ),
+    ),*/
+    mapController()
   ];
 
   void _onItemTapped(int index) {
