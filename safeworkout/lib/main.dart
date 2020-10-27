@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/mapController.dart';
 import 'package:safeworkout/webview_container.dart';
-import 'package:flutter_search_bar/flutter_search_bar.dart';
 void main() => runApp(MyApp());
 
 /// This is the main application widget.
@@ -28,7 +27,6 @@ class MyStatefulWidget extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  SearchBar searchBar;
   bool isSearching=false;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -142,7 +140,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             ListTile(
               leading: Icon(Icons.fitness_center),
-              title: Text('Exercises'),
+              title: Text('Workout Plan'),
             ),
             ListTile(
               leading: Icon(Icons.settings),
