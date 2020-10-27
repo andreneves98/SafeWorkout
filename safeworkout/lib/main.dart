@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/mapController.dart';
 import 'package:safeworkout/webview_container.dart';
-
+import 'package:flutter_search_bar/flutter_search_bar.dart';
 void main() => runApp(MyApp());
 
 /// This is the main application widget.
@@ -28,6 +28,8 @@ class MyStatefulWidget extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
+  SearchBar searchBar;
+  bool isSearching=false;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
@@ -37,8 +39,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ),*/
     WebViewContainer('https://www.coachmag.co.uk/workouts/home-workouts', 'Home Workouts'),
     Text(
-      'Index 1: Search',
+      'Index 1: QrCode',
       style: optionStyle,
+      //searchBar()
     ),
     /*Text(
       'Index 2: Map',
@@ -57,10 +60,42 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SafeWorkout'),
+        backgroundColor: Colors.red,
+        title: !isSearching 
+                ? Text('SafeWorkout')
+                :TextField(
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.search),
+                    hintText: "Search something here",
+                    hintStyle: TextStyle(color: Colors.white))
+                  
+                ),
+        
+        actions:<Widget>[
+          isSearching?
+          IconButton(
+            icon: Icon(Icons.cancel),
+            onPressed: (){
+              setState((){
+                this.isSearching=false;
+              });
+            },
+          ):
+           IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){
+              setState((){
+                this.isSearching=true;
+              });
+            },
+          ),
+        ],
       ),
+
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
+ 
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -69,8 +104,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.qr_code),
+            label: 'QrCode',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
@@ -81,13 +116,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
+      
       drawer: Drawer(
+        
         child: ListView(
+            
           padding: EdgeInsets.zero,
+          
           children: const <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.red,
               ),
               child: Text(
                 'SafeWorkout',
