@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/mapController.dart';
 import 'package:safeworkout/webview_container.dart';
+import 'package:safeworkout/HomePage.dart';
 void main() => runApp(MyApp());
 
 /// This is the main application widget.
@@ -31,21 +32,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    /*Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),*/
-    WebViewContainer('https://www.coachmag.co.uk/workouts/home-workouts', 'Home Workouts'),
+    // Home page
+    HomePage(),
+    
+    // Second page
     Text(
       'Index 1: QrCode',
       style: optionStyle,
-      //searchBar()
     ),
-    /*Text(
-      'Index 2: Map',
-      style: optionStyle,
-    ),*/
-    mapController()
+
+    // Map page
+    MapPage()
   ];
 
   void _onItemTapped(int index) {
@@ -58,7 +55,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.blue[700],
         title: !isSearching 
                 ? Text('SafeWorkout')
                 :TextField(
@@ -111,29 +108,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.blue[300],
         onTap: _onItemTapped,
       ),
       
       drawer: Drawer(
-        
         child: ListView(
-            
           padding: EdgeInsets.zero,
-          
-          children: const <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.red,
-              ),
-              child: Text(
-                'SafeWorkout',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: 200,
+              child: DrawerHeader(
+                child: Text(""),
+                decoration: BoxDecoration(
+                  color: Colors.blue[600],
+                  image: DecorationImage (
+                    image: AssetImage('images/logo.jpg'),
+                    fit: BoxFit.cover
+                  )
                 ),
               ),
             ),
+            
             ListTile(
               leading: Icon(Icons.pie_chart),
               title: Text('Nutrition'),

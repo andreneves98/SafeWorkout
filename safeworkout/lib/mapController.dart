@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class mapController extends StatefulWidget {
+class MapPage extends StatefulWidget {
   @override
-  _MapControllerState createState() => _MapControllerState();
+  _MapPageState createState() => _MapPageState();
 }
 
-class _MapControllerState extends State<mapController> {
+class _MapPageState extends State<MapPage> {
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
@@ -20,6 +20,8 @@ class _MapControllerState extends State<mapController> {
     return MaterialApp(
       home: Scaffold(
         body: GoogleMap(
+          myLocationEnabled: true,
+          myLocationButtonEnabled: true,
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
