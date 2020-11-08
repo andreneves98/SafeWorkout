@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class WorkoutData {
+
+  Future<http.Response> fetchAlbum() {
+  return http.get('https://jsonplaceholder.typicode.com/albums/1');
+}
+
  static final muscleGroups = [
    {
      'name': 'Chest',
-     'image': 'images/chest.jpg'
+     'image': 'images/chest.jpg',
+     'exercises': [
+
+     ]
    },
    {
      'name': 'Abdomen',

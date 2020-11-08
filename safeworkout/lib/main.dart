@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:safeworkout/mapController.dart';
-import 'package:safeworkout/webview_container.dart';
-import 'package:safeworkout/HomePage.dart';
+import 'package:safeworkout/views/MapPage.dart';
+import 'package:safeworkout/views/webview_container.dart';
+import 'package:safeworkout/views/HomePage.dart';
+import 'package:safeworkout/views/ExercisePage.dart';
+
 void main() => runApp(MyApp());
 
 /// This is the main application widget.
@@ -36,10 +38,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     HomePage(),
     
     // Second page
-    Text(
-      'Index 1: QrCode',
-      style: optionStyle,
-    ),
+    ExercisePage(),
 
     // Map page
     MapPage()
@@ -99,8 +98,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code),
-            label: 'QrCode',
+            icon: Icon(Icons.fitness_center),
+            label: 'Exercises',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),

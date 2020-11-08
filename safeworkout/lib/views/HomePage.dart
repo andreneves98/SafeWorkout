@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/WorkoutData.dart';
+import 'package:safeworkout/views/MapPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -97,58 +98,64 @@ class _HomePageState extends State<HomePage> {
                 itemCount: workoutData.length,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
-                itemBuilder: (content, index) {
-                  return Container(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    height: 200,
-                    width: double.maxFinite,
-                    child: Card(
-                      elevation: 7,
-                      child: Padding(
-                        padding: EdgeInsets.all(7),
-                        child: Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: Stack(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(bottom: 15, right:10),
-                                                child: Image.asset(workoutData[index]['image'], width: 70, ),
-                                              ),
-                                              Row(
-                                                children: [workoutGroup(workoutData[index]),
-                                                  Spacer(),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(top: 3),
-                                                    child: Icon(
-                                                      Icons.keyboard_arrow_right,
-                                                      color: Colors.black,
-                                                    ),
-                                                  )
-                                                  
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () { 
+                      /*Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => MapPage()),
+                      );*/
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      height: 200,
+                      width: double.maxFinite,
+                      child: Card(
+                        elevation: 7,
+                        child: Padding(
+                          padding: EdgeInsets.all(7),
+                          child: Stack(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(bottom: 15, right:10),
+                                                  child: Image.asset(workoutData[index]['image'], width: 70, ),
+                                                ),
+                                                Row(
+                                                  children: [workoutGroup(workoutData[index]),
+                                                    Spacer(),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(top: 3),
+                                                      child: Icon(
+                                                        Icons.keyboard_arrow_right,
+                                                        color: Colors.black,
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
                               )
-                            )
-                          ],
+                            ],
+                          )
                         )
-                      )
+                      ),
                     ),
                   );
                 }
