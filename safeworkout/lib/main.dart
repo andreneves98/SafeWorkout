@@ -4,7 +4,9 @@ import 'package:safeworkout/views/webview_container.dart';
 import 'package:safeworkout/views/HomePage.dart';
 import 'package:safeworkout/views/ExercisePage.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  runApp(MyApp());
+} 
 
 /// This is the main application widget.
 class MyApp extends StatelessWidget {

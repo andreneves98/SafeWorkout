@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:safeworkout/ExerciseBloc.dart';
 import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/ExerciseInfo.dart';
+import 'package:safeworkout/ExerciseImageInfo.dart';
 
 class ExercisePage extends StatefulWidget {
   @override _ExercisePageState createState() => _ExercisePageState();
@@ -20,9 +21,9 @@ class _ExercisePageState extends State<ExercisePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => _exerciseBloc.fetchExerciseList(),
+        onRefresh: () => _exerciseBloc.mergeImages(),
         child: StreamBuilder<ApiResponse<List<Exercise>>>(
-          stream: _exerciseBloc.exerciseListStream,
+          stream: _exerciseBloc.exerciseImageListStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               switch (snapshot.data.status) {
@@ -30,12 +31,12 @@ class _ExercisePageState extends State<ExercisePage> {
                   return Loading(loadingMessage: snapshot.data.message);
                   break;
                 case Status.COMPLETED:
-                  return ExerciseList(exerciseList: snapshot.data.data);
+                  return ExerciseList(exercises_images: snapshot.data.data);
                   break;
                 case Status.ERROR:
                   return Error(
                     errorMessage: snapshot.data.message,
-                    onRetryPressed: () => _exerciseBloc.fetchExerciseList(),
+                    onRetryPressed: () => _exerciseBloc.mergeImages(),
                   );
                   break;
               }
@@ -56,38 +57,63 @@ class _ExercisePageState extends State<ExercisePage> {
 
 class ExerciseList extends StatelessWidget {
   final List<Exercise> exerciseList;
+  final List<ExerciseImage> exerciseImageList;
+  final List<Exercise> exercises_images;
 
-  const ExerciseList({Key key, this.exerciseList}) : super(key: key);
+  const ExerciseList({Key key, this.exerciseList, this.exerciseImageList, this.exercises_images}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: exerciseList.length,
-      /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.5 / 1.8,
-      ),*/
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            /*onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MovieDetail(movieList[index].id)));
-            },*/
-            child: Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                  child: Text(
+    return Expanded(
+      child: ListView.builder(
+        itemCount: exercises_images.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              /*onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MovieDetail(movieList[index].id)));
+              },*/
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  /*child: Text(
                     exerciseList[index].name,
                     style: TextStyle(color: Colors.black)
-                  )
+                  )*/
+                  child: Row(
+                    children: [
+                      Column(children: [
+                        Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 5, right: 10),
+                            child: Image.network(exercises_images[index].image, width: 70),
+                          ),
+                          Text(
+                            exercises_images[index].name,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20)
+                          ),
+                        ],)
+                        
+                        /*Text(
+                          exerciseList[index].description,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13)
+                        ),*/
+                      ],)
+                    ]
+                  ),
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      )
     );
   }
 }

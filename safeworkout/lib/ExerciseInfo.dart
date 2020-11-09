@@ -32,9 +32,10 @@ class Exercise {
   List<dynamic> muscles;
   List<dynamic> muscles_secondary;
   List<dynamic> equipment;
+  String image;
 
   Exercise({this.id, this.description, this.name, this.category, this.muscles, 
-            this.muscles_secondary, this.equipment});
+            this.muscles_secondary, this.equipment, this.image});
   
   Exercise.fromJson(Map<String, dynamic> json) {
     id = json['id'];

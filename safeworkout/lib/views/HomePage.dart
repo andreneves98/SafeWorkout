@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:safeworkout/WorkoutData.dart';
+import 'package:safeworkout/ExerciseCategory.dart';
 import 'package:safeworkout/views/MapPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var workoutData = WorkoutData.muscleGroups;
+    var exerciseCategory = ExerciseCategory.muscleGroups;
 
     /* LIST IMPLEMENTATION */
 
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
-                itemCount: workoutData.length,
+                itemCount: exerciseCategory.length,
                 itemBuilder: (content, index) {
                   return Container(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -46,9 +46,9 @@ class _HomePageState extends State<HomePage> {
                                           alignment: Alignment.center,
                                           child: Row(
                                             children: [
-                                              workoutNameSymbol(workoutData[index]),
+                                              workoutNameSymbol(exerciseCategory[index]),
                                               Spacer(),
-                                              cardIcon(workoutData[index]),
+                                              cardIcon(exerciseCategory[index]),
                                               
                                             ],
                                           )
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: GridView.builder(
-                itemCount: workoutData.length,
+                itemCount: exerciseCategory.length,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
                 itemBuilder: (context, index) {
@@ -129,10 +129,10 @@ class _HomePageState extends State<HomePage> {
                                               children: [
                                                 Padding(
                                                   padding: EdgeInsets.only(bottom: 15, right:10),
-                                                  child: Image.asset(workoutData[index]['image'], width: 70, ),
+                                                  child: Image.asset(exerciseCategory[index]['image'], width: 70, ),
                                                 ),
                                                 Row(
-                                                  children: [workoutGroup(workoutData[index]),
+                                                  children: [workoutGroup(exerciseCategory[index]),
                                                     Spacer(),
                                                     Padding(
                                                       padding: EdgeInsets.only(top: 3),
