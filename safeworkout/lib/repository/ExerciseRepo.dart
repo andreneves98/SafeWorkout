@@ -1,6 +1,6 @@
 import 'package:safeworkout/api/ApiHandler.dart';
-import 'package:safeworkout/ExerciseInfo.dart';
-import 'package:safeworkout/ExerciseImageInfo.dart';
+import 'package:safeworkout/backend/ExerciseInfo.dart';
+import 'package:safeworkout/backend/ExerciseImageInfo.dart';
 
 class ExerciseRepo {
   //final String _apiKey = apiKey;

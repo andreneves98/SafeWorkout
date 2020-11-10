@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:safeworkout/ExerciseCategory.dart';
+import 'package:safeworkout/backend/ExerciseCategory.dart';
 import 'package:safeworkout/views/MapPage.dart';
+import 'package:safeworkout/views/ExercisePage.dart';
+import 'package:safeworkout/backend/ExerciseBloc.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +12,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    ExerciseBloc _exerciseBloc = ExerciseBloc();
+    
     var exerciseCategory = ExerciseCategory.muscleGroups;
 
     /* LIST IMPLEMENTATION */
@@ -84,9 +88,9 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15),
-                child: Text("Exercises", 
+                child: Text("What are we training today?", 
                   style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 27,
                   fontWeight: FontWeight.bold,
                   color: Colors.black
                   )
@@ -101,9 +105,15 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () { 
-                      /*Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => MapPage()),
-                      );*/
+                      _exerciseBloc.mergeImages(exerciseCategory[index]['id']);
+                      Navigator.push(
+                        context, MaterialPageRoute(
+                          builder: (context) => ExercisePage(_exerciseBloc),
+                          settings: RouteSettings(
+                            arguments: exerciseCategory[index]['id'],
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),

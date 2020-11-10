@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/repository/ExerciseRepo.dart';
-import 'package:safeworkout/ExerciseInfo.dart';
-import 'package:safeworkout/ExerciseImageInfo.dart';
+import 'package:safeworkout/backend/ExerciseInfo.dart';
+import 'package:safeworkout/backend/ExerciseImageInfo.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ExerciseBloc {  
   List<Exercise> exercises;
   List<ExerciseImage> images;
   ExerciseRepo _exerciseImageRepository;
 
-  StreamController _exerciseImageListController;
+  StreamController _exerciseImageListController = StreamController.broadcast();
 
   StreamSink<ApiResponse<List<Exercise>>> get exerciseImageListSink =>
       _exerciseImageListController.sink;
@@ -21,17 +22,18 @@ class ExerciseBloc {
   ExerciseBloc() {
     _exerciseImageListController = StreamController<ApiResponse<List<Exercise>>>();
     _exerciseImageRepository = ExerciseRepo();
-    mergeImages();
+    //mergeImages(11);
   }  
   
-  mergeImages() async{
+  mergeImages([int category]) async{
+    print(category);
     exerciseImageListSink.add(ApiResponse.loading('Fetching Exercises'));
     exercises = await _exerciseImageRepository.fetchExerciseList();
     images = await _exerciseImageRepository.fetchExerciseImageList();
     List<Exercise> exercises_images = [];
     for(var exercise in exercises) {
       for(var image in images) {
-        if(image.exercise == exercise.id  && exercise.description != null) {
+        if(image.exercise == exercise.id && exercise.description != null && exercise.category == category) {
           var newEx = Exercise(id: exercise.id, name: exercise.name, description: exercise.description, 
                                           category: exercise.category, muscles: exercise.muscles, muscles_secondary: exercise.muscles_secondary, 
                                           image: image.image);
@@ -47,6 +49,7 @@ class ExerciseBloc {
         }
       }
     }
+    print(exercises_images.length);
 
     try {
       exerciseImageListSink.add(ApiResponse.completed(exercises_images));
