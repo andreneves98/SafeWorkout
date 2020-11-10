@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:safeworkout/screens/home_screen.dart';
 import 'package:safeworkout/views/MapPage.dart';
-import 'package:safeworkout/views/webview_container.dart';
 import 'package:safeworkout/views/HomePage.dart';
 import 'package:safeworkout/views/ExercisePage.dart';
 
@@ -40,10 +40,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     HomePage(),
     
     // Second page
-    ExercisePage(),
+    HomeScreen(),
 
     // Map page
     MapPage()
+
+    //video Page
   ];
 
   void _onItemTapped(int index) {
@@ -100,8 +102,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center),
-            label: 'Exercises',
+            icon: Icon(Icons.video_label),
+            label: 'Videos',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
