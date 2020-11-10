@@ -40,4 +40,4 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 # youtube key 
-lib\utilities\keys.dart
+safeworkout\lib\utilities\keys.dart
