@@ -4,6 +4,7 @@ import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:safeworkout/backend/ExerciseImageInfo.dart';
 
+
 class ExercisePage extends StatefulWidget {
   ExerciseBloc exerciseBloc;
 
@@ -22,22 +23,36 @@ class _ExercisePageState extends State<ExercisePage> {
 
   ExerciseBloc _exerciseBloc;
 
-  _ExercisePageState(this._exerciseBloc);
+  _ExercisePageState([this._exerciseBloc]);
 
   @override
   void initState() {
     super.initState();
   }
 
+  /*List<bool> _indexesSelected;
+  void _selected(index) {
+    setState(() {
+      //List<bool> _indexesSelected = new List<bool>(exercises_images.length);
+    /*for(var index = 0; index < exercises_images.length; index++) {
+      _indexesSelected[index] = false;
+    }*/
+    _indexesSelected.insert(index, true);
+    });
+  }*/
+
   @override
   Widget build(BuildContext context) {
-    final int category = ModalRoute.of(context).settings.arguments;
+    final String args = ModalRoute.of(context).settings.arguments;
+    final int categoryIndex = int.parse(args.split("-")[0]);
+    final String categoryName = args.split("-")[1];
+
     //final ExerciseBloc exerciseBloc = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => _exerciseBloc.mergeImages(category),
-        child: StreamBuilder<ApiResponse<List<Exercise>>>(
+        onRefresh: () => _exerciseBloc.mergeImages(categoryIndex),
+        child: StreamBuilder(
           stream: _exerciseBloc.exerciseImageListStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -46,12 +61,12 @@ class _ExercisePageState extends State<ExercisePage> {
                   return Loading(loadingMessage: snapshot.data.message);
                   break;
                 case Status.COMPLETED:
-                  return ExerciseList(exercises_images: snapshot.data.data);
+                  return ExerciseList(exercises_images: snapshot.data.data, categoryName: categoryName, exerciseBloc: _exerciseBloc,);
                   break;
                 case Status.ERROR:
                   return Error(
                     errorMessage: snapshot.data.message,
-                    onRetryPressed: () => _exerciseBloc.mergeImages(category),
+                    onRetryPressed: () => _exerciseBloc.mergeImages(categoryIndex),
                   );
                   break;
               }
@@ -70,91 +85,213 @@ class _ExercisePageState extends State<ExercisePage> {
   }
 }
 
-class ExerciseList extends StatelessWidget {
+class ExerciseList extends StatefulWidget {
   final List<Exercise> exerciseList;
   final List<ExerciseImage> exerciseImageList;
   final List<Exercise> exercises_images;
+  final ExerciseBloc exerciseBloc;
+  final String categoryName;
 
-  const ExerciseList({Key key, this.exerciseList, this.exerciseImageList, this.exercises_images}) : super(key: key);
+  const ExerciseList({Key key, this.exerciseList, this.exerciseImageList, this.exercises_images, this.categoryName, this.exerciseBloc}) : super(key: key);
+  
+  @override _ExerciseListState createState() => _ExerciseListState();
+}
+
+class _ExerciseListState extends State<ExerciseList> {
+  List<bool> indexesSelected;
+  @override
+  void initState() {
+    super.initState();
+    indexesSelected = new List(widget.exercises_images.length);
+    for(var index = 0; index < widget.exercises_images.length; index++) {
+      indexesSelected[index] = false;
+    }
+  }
+
+  void selected(index) {
+    setState(() {
+      indexesSelected[index] = !indexesSelected[index];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    bool isSearching=false;
     return Scaffold(
-      body: Container(
-        color: Colors.grey[100],
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.only(top: 50),
-                child: Text("Page", 
-                  style: TextStyle(
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black
-                  )
-                )
-              ,)
-            ), 
-            Expanded(
-              child: ListView.builder(
-                itemCount: exercises_images.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      /*onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MovieDetail(movieList[index].id)));
-                      },*/
-                      child: Card(
-                        elevation: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          /*child: Text(
-                            exerciseList[index].name,
-                            style: TextStyle(color: Colors.black)
-                          )*/
-                          child: Row(
-                            children: [
-                              Column(children: [
-                                Row(children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 5, right: 10),
-                                    child: Image.network(exercises_images[index].image, width: 50),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[700],
+        title: !isSearching 
+                ? Text('SafeWorkout', style: TextStyle(fontSize: 26),)
+                :TextField(
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.search),
+                    hintText: "Search something here",
+                    hintStyle: TextStyle(color: Colors.white))
+                ),
+        
+        /*actions:<Widget>[
+          isSearching?
+          IconButton(
+            icon: Icon(Icons.cancel),
+            onPressed: (){
+              setState((){
+                this.isSearching=false;
+              });
+            },
+          ):
+           IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){
+              setState((){
+                this.isSearching=true;
+              });
+            },
+          ),
+        ],*/
+      ),
+
+      body: Center(
+        child: Container(
+          color: Colors.grey[100],
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ]
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(widget.categoryName + " exercises", 
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
+                          )
+                        )
+                      )
+                    ]
+                  )                
+                ],
+              ),
+              
+              Expanded(
+                child: ListView.builder(
+                  itemCount: widget.exercises_images.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        /*onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MovieDetail(movieList[index].id)));
+                        },*/
+                        child: Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Image.network(widget.exercises_images[index].image, width: 50),
+                                  title: Text(widget.exercises_images[index].name,
+                                    style: TextStyle(fontSize: 20),),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.favorite),
+                                    onPressed: () {
+                                      //_indexesSelected[index] = true;
+                                      selected(index);
+                                      print("FAVORITE!" + index.toString());
+                                    },
+                                    color: indexesSelected[index] ? Colors.redAccent : Colors.grey,
                                   ),
-                                  Text(
-                                    exercises_images[index].name,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20)
-                                  ),
-                                ],)
-                                
-                                /*Text(
-                                  exerciseList[index].description,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13)
-                                ),*/
-                              ],)
-                            ]
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                )
               )
-            )
-          ]
-        )
+            ]
+          )
+        ),
       ),
+      /*bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_label),
+            label: 'Videos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[300],
+        onTap: _onItemTapped,
+      ),*/
+      
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: 200,
+              child: DrawerHeader(
+                child: Text(""),
+                decoration: BoxDecoration(
+                  color: Colors.blue[600],
+                  image: DecorationImage (
+                    image: AssetImage('images/logo.jpg'),
+                    fit: BoxFit.cover
+                  )
+                ),
+              ),
+            ),
+            
+            ListTile(
+              leading: Icon(Icons.pie_chart),
+              title: Text('Nutrition'),
+            ),
+            ListTile(
+              leading: Icon(Icons.fitness_center),
+              title: Text('Workout Plan'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+        ),
+      )
     );
   }
+
 }
 
 class Error extends StatelessWidget {

@@ -10,7 +10,7 @@ void main(){
 
 /// This is the main application widget.
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'SafeWorkout';
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
         title: !isSearching 
-                ? Text('SafeWorkout')
+                ? Text('SafeWorkout', style: TextStyle(fontSize: 26),)
                 :TextField(
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(

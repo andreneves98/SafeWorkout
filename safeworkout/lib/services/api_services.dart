@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:safeworkout/models/channel_model.dart';
 import 'package:safeworkout/models/video_model.dart';
-import 'package:safeworkout/utilities/keys.dart';
 
 class APIService {
   APIService._instantiate();
@@ -17,7 +16,7 @@ class APIService {
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails, statistics',
       'id': channelId,
-      'key': YOUTUBE_KEY,
+      //'key': YOUTUBE_KEY,
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -50,7 +49,7 @@ class APIService {
       'playlistId': playlistId,
       'maxResults': '8',
       'pageToken': _nextPageToken,
-      'key': YOUTUBE_KEY,
+      //'key': YOUTUBE_KEY,
     };
     Uri uri = Uri.https(
       _baseUrl,
