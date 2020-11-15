@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     bool isLogged= this.user==null ? false: true;
     return MaterialApp(
       title: _title,
-      home: MyStatefulWidget(isLogged:isLogged),
+      home: MyStatefulWidget(isLogged:isLogged,user:user),
     );
   }
 }
@@ -32,9 +32,11 @@ class MyStatefulWidget extends StatefulWidget {
   MyStatefulWidget(
     {
       Key key,
+      this.user,
       this.isLogged,
     }) : super(key: key);
   
+  final User user;
   final bool isLogged;
 
   @override
@@ -155,7 +157,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
             ),
-            
+            ListTile(
+              leading: Icon(Icons.person_pin),
+              title: this.widget.isLogged? 
+                      Text('Sign as '+this.widget.user.email)
+                      :Text('Guest'),
+              
+            ),
             ListTile(
               leading: Icon(Icons.pie_chart),
               title: Text('Nutrition'),
