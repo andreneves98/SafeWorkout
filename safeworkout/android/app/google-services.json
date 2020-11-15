@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "183966719487",
+    "firebase_url": "https://safeworkoutapi-b2541.firebaseio.com",
+    "project_id": "safeworkoutapi-b2541",
+    "storage_bucket": "safeworkoutapi-b2541.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183966719487:android:cdd9499c27a09c2ae99bca",
+        "android_client_info": {
+          "package_name": "com.example.safeworkout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183966719487-bgoopkpccb90k3520v2mrlq7rf5q7ra4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPo1WskrJU2OLW_LdbYGQy3U6EnVWtCpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183966719487-bgoopkpccb90k3520v2mrlq7rf5q7ra4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,127 +1,210 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:safeworkout/backend/ExerciseCategory.dart';
+import 'package:safeworkout/screens/home_screen.dart';
 import 'package:safeworkout/views/MapPage.dart';
-import 'package:safeworkout/views/ExercisePage.dart';
-import 'package:safeworkout/backend/ExerciseBloc.dart';
+import 'package:safeworkout/views/FeedPage.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+import 'LogIn.dart';
 
-class _HomePageState extends State<HomePage> {
+
+/// This is the main application widget.
+class HomePage extends StatelessWidget {
+  static const String _title = 'SafeWorkout';
+  const HomePage({
+    Key key, 
+    this.user
+    }) : super(key: key);
+
+    final User user;
+
   @override
   Widget build(BuildContext context) {
-    //ExerciseBloc _exerciseBloc = ExerciseBloc();
-    
-    var exerciseCategory = ExerciseCategory.muscleGroups;
+    bool isLogged= this.user==null ? false: true;
+    return MaterialApp(
+      title: _title,
+      home: MyStatefulWidget(isLogged:isLogged),
+    );
+  }
+}
 
-    /* GRID IMPLEMENTATION */
+/// This is the stateful widget that the main application instantiates.
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget(
+    {
+      Key key,
+      this.isLogged,
+    }) : super(key: key);
+  
+  final bool isLogged;
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+/// This is the private State class that goes with MyStatefulWidget.
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _selectedIndex = 0;
+  bool isSearching=false;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static List<Widget> _widgetOptions = <Widget>[
+    // Home page
+    FeedPage(),
+    
+    // Second page
+    HomeScreen(),
+
+    // Map page
+    MapPage()
+
+    //video Page
+  ];
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     return Scaffold(
+      appBar: AppBar(
+        
+        backgroundColor: Colors.transparent,
+        title: !isSearching 
+                ? Text('SafeWorkout', style: TextStyle(fontSize: 26),)
+                :TextField(
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.search),
+                    hintText: "Search something here",
+                    hintStyle: TextStyle(color: Colors.white))
+                  
+                ),
+        
+        actions:<Widget>[
+          isSearching?
+          IconButton(
+            icon: Icon(Icons.cancel),
+            onPressed: (){
+              setState((){
+                this.isSearching=false;
+              });
+            },
+          ):
+           IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){
+              setState((){
+                this.isSearching=true;
+              });
+            },
+          ),
+        ],
+      ),
+
       body: Container(
-        color: Colors.grey[100],
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Text("What are we training today?", 
-                  style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black
-                  )
-                )
-              ,)
+        child: _widgetOptions.elementAt(_selectedIndex),
+        decoration: BoxDecoration(
+          image:DecorationImage(
+            image: AssetImage("images/TrainersBackground.png"),
+            fit: BoxFit.cover
             ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: exerciseCategory.length,
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      ExerciseBloc _exerciseBloc = ExerciseBloc();
-                      print("TAPPED CATEGORY: " + exerciseCategory[index]['name']);
-                      _exerciseBloc.mergeImages(exerciseCategory[index]['id']);
-                      Navigator.push(
-                        context, MaterialPageRoute(
-                          builder: (context) => ExercisePage(_exerciseBloc),
-                          settings: RouteSettings(
-                            arguments: exerciseCategory[index]['id'].toString() + "-" + exerciseCategory[index]['name'],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      height: 200,
-                      width: double.maxFinite,
-                      child: Card(
-                        elevation: 7,
-                        child: Padding(
-                          padding: EdgeInsets.all(7),
-                          child: Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(bottom: 15, right:10),
-                                                child: Image.asset(exerciseCategory[index]['image'], width: 70, ),
-                                              ),
-                                                workoutGroup(exerciseCategory[index]),
-                                                //Spacer(),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )
-                              )
-                            ],
-                          )
-                        )
-                      ),
-                    ),
-                  );
-                }
-              )
-            )
+          ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_label),
+            label: 'Videos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.white,
+        onTap: _onItemTapped,
+      ),
+      
+      drawer: Drawer(
+        child: ListView(
+
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: 200,
+              child: DrawerHeader(
+                child: Text(""),
+                decoration: BoxDecoration(
+                  color: Colors.blue[600],
+                  image: DecorationImage (
+                    image: AssetImage('images/logo.jpg'),
+                    fit: BoxFit.cover
+                  )
+                ),
+              ),
+            ),
+            
+            ListTile(
+              leading: Icon(Icons.pie_chart),
+              title: Text('Nutrition'),
+              
+            ),
+            ListTile(
+              leading: Icon(Icons.fitness_center),
+              title: Text('Workout Plan'),
+              enabled: this.widget.isLogged,
+
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              enabled: this.widget.isLogged,
+
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Signout'),
+              enabled: this.widget.isLogged,
+              onTap: () async {
+                  dynamic result=await signOut();
+                  if(result==null){
+                    print("There are no user logedIn");
+                  }else{
+                    print(result);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    }
+              }), 
+              ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Favourite'),
+              enabled: this.widget.isLogged,
+            ),
           ],
         ),
       )
     );
   }
-
-  Widget workoutGroup(data) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [ 
-        Text('${data['name']}',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
-          ),
-        Padding(
-          padding: EdgeInsets.only(top: 3),
-          child: Icon(
-            Icons.keyboard_arrow_right,
-            color: Colors.black,
-          ),
-        )
-      ]
-    );
-  }
 }
+
+ Future signOut() async{
+   try{
+     User user= (await FirebaseAuth.instance.currentUser);
+     await FirebaseAuth.instance.signOut();
+     return user.uid;
+    }catch(e){
+      print(e.toString());
+      return null;
+    }
+   }
