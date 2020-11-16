@@ -10,7 +10,7 @@ class ExerciseBloc {
   List<Exercise> exercises;
   List<ExerciseImage> images;
   ExerciseRepo _exerciseImageRepository;
-  List<Exercise> exercises_images = new List();
+  //List<Exercise> exercises_images = new List();
 
   StreamController _exerciseImageListController;
 
@@ -33,30 +33,21 @@ class ExerciseBloc {
       exerciseImageListSink.add(ApiResponse.loading('Fetching Exercises'));
       exercises = await _exerciseImageRepository.fetchExerciseList();
       images = await _exerciseImageRepository.fetchExerciseImageList();
-      
-      var newEx;
+      List<Exercise> exercises_images = new List();
+      //var newEx;
       for(var exercise in exercises) {
         for(var image in images) {
           if(image.exercise == exercise.id && exercise.description != null && exercise.category == category) {
-            if(globals.favorites.length > 0) {
-              for(var exercise in globals.favorites) {
-                if(exercise.image == image.image) {
-                  newEx = Exercise(id: exercise.id, name: exercise.name, description: exercise.description, 
+            var newEx = Exercise(id: exercise.id, name: exercise.name, description: exercise.description, 
                                               category: exercise.category, muscles: exercise.muscles, muscles_secondary: exercise.muscles_secondary, 
-                                              image: image.image, favorite: true);
-                }
-                else {
-                  newEx = Exercise(id: exercise.id, name: exercise.name, description: exercise.description, 
-                                              category: exercise.category, muscles: exercise.muscles, muscles_secondary: exercise.muscles_secondary, 
-                                              image: image.image, favorite: false);
-                }
+                                              image: image.image, favorite: exercise.favorite);
+                                            
+            for(var fav in globals.favorites) {
+              if(fav.image == newEx.image) {
+                newEx.favorite = true;
               }
             }
-            else {
-              newEx = Exercise(id: exercise.id, name: exercise.name, description: exercise.description, 
-                                          category: exercise.category, muscles: exercise.muscles, muscles_secondary: exercise.muscles_secondary, 
-                                          image: image.image, favorite: false);
-            }
+
             exercises_images.add(newEx);
           }
         }

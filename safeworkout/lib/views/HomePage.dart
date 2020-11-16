@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:safeworkout/screens/home_screen.dart';
 import 'package:safeworkout/views/MapPage.dart';
 import 'package:safeworkout/views/FeedPage.dart';
+import 'package:safeworkout/views/FavoritesPage.dart';
 
 import 'LogIn.dart';
 
@@ -45,8 +46,8 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
   int _selectedIndex = 0;
-  bool isSearching=false;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
@@ -74,38 +75,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     return Scaffold(
       appBar: AppBar(
-        
-        backgroundColor: Colors.transparent,
-        title: !isSearching 
-                ? Text('SafeWorkout', style: TextStyle(fontSize: 26),)
-                :TextField(
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search),
-                    hintText: "Search something here",
-                    hintStyle: TextStyle(color: Colors.white))
-                  
-                ),
-        
-        actions:<Widget>[
-          isSearching?
-          IconButton(
-            icon: Icon(Icons.cancel),
-            onPressed: (){
-              setState((){
-                this.isSearching=false;
-              });
-            },
-          ):
-           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: (){
-              setState((){
-                this.isSearching=true;
-              });
-            },
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.grey[100],
+        elevation: 0,
+        leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.clear_all, color: Colors.black, size: 30,),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
           ),
-        ],
+        title: Text("SafeWorkout", style: TextStyle(color: Colors.red[500], fontSize: 25),),
       ),
 
       body: Container(
@@ -118,7 +97,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -134,7 +113,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
+        selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
       
@@ -196,8 +175,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               }), 
               ListTile(
               leading: Icon(Icons.favorite),
-              title: Text('Favourite'),
+              title: Text('Favorites'),
               enabled: this.widget.isLogged,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+              }
             ),
           ],
         ),

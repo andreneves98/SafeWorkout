@@ -112,7 +112,8 @@ class _ExerciseListState extends State<ExerciseList> {
     }
   }
 
-  void selected(index) {
+  bool selected(index) {
+    bool result; // 0 removed, 1 added
     print("\nexercises_images:");
     setState(() {
       for(var exercise in widget.exercises_images) {
@@ -125,59 +126,39 @@ class _ExerciseListState extends State<ExerciseList> {
         widget.exercises_images[index].favorite = true;
         globals.favorites.add(widget.exercises_images[index]);
         print("Exercise " + index.toString() + " added! Length: " + globals.favorites.length.toString());
+        result = true;
       }
       else {
         widget.exercises_images[index].favorite = false;
         globals.favorites.remove(widget.exercises_images[index]);
         print("Exercise " + index.toString() + " removed! Length: " + globals.favorites.length.toString());
+        result = false;
       }
 
       print("\nList of favs:");
-      for(var exercise in globals.favorites) {
-        print(exercise.toString());
+      for(var fav in globals.favorites) {
+        print(fav.toString());
       }
 
-      
     });
+
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    bool isSearching=false;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[700],
-        title: !isSearching 
-                ? Text('SafeWorkout', style: TextStyle(fontSize: 26),)
-                :TextField(
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search),
-                    hintText: "Search something here",
-                    hintStyle: TextStyle(color: Colors.white))
-                ),
-        
-        /*actions:<Widget>[
-          isSearching?
-          IconButton(
-            icon: Icon(Icons.cancel),
-            onPressed: (){
-              setState((){
-                this.isSearching=false;
-              });
-            },
-          ):
-           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: (){
-              setState((){
-                this.isSearching=true;
-              });
-            },
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.grey[100],
+        elevation: 0,
+        leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.clear_all, color: Colors.black, size: 30,),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
           ),
-        ],*/
+        title: Text("SafeWorkout", style: TextStyle(color: Colors.red[500], fontSize: 25),),
       ),
 
       body: Center(
@@ -204,10 +185,10 @@ class _ExerciseListState extends State<ExerciseList> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(5),
                         child: Text(widget.categoryName + " exercises", 
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 23,
                           fontWeight: FontWeight.bold,
                           color: Colors.black
                           )
@@ -243,9 +224,17 @@ class _ExerciseListState extends State<ExerciseList> {
                                   trailing: IconButton(
                                     icon: Icon(Icons.star_border),
                                     onPressed: () {
-                                      //_indexesSelected[index] = true;
-                                      selected(index);
-                                      //print("FAVORITE " + index.toString() + ":" + globals.favorites.contains(widget.exercises_images[index]).toString());
+                                      var text = selected(index);
+                                      final snackBar = SnackBar(
+                                        content: Text(text ? "Exercise added to your favorites!" : "Exercise removed from your favorites!"),
+                                        action: SnackBarAction(
+                                          label: 'Close',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+                                      Scaffold.of(context).showSnackBar(snackBar);
                                     },
                                     //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
                                     color: widget.exercises_images[index].favorite ? Colors.yellow : Colors.grey,
@@ -284,8 +273,9 @@ class _ExerciseListState extends State<ExerciseList> {
         onTap: _onItemTapped,
       ),*/
       
-      drawer: Drawer(
+      /*drawer: Drawer(
         child: ListView(
+
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
@@ -302,22 +292,54 @@ class _ExerciseListState extends State<ExerciseList> {
                 ),
               ),
             ),
-            
+            ListTile(
+              leading: Icon(Icons.person_pin),
+              title: this.widget.isLogged? 
+                      Text('Sign as '+this.widget.user.email)
+                      :Text('Guest'),
+              
+            ),
             ListTile(
               leading: Icon(Icons.pie_chart),
               title: Text('Nutrition'),
+              
             ),
             ListTile(
               leading: Icon(Icons.fitness_center),
               title: Text('Workout Plan'),
+              //enabled: this.widget.isLogged,
+
             ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
+              enabled: this.widget.isLogged,
+
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Signout'),
+              enabled: this.widget.isLogged,
+              onTap: () async {
+                  dynamic result=await signOut();
+                  if(result==null){
+                    print("There are no user logedIn");
+                  }else{
+                    print(result);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    }
+              }), 
+              ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Favorites'),
+              enabled: this.widget.isLogged,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+              }
             ),
           ],
         ),
-      )
+      )*/
     );
   }
 
@@ -383,7 +405,7 @@ class Loading extends StatelessWidget {
           ),
           SizedBox(height: 24),
           CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.lightBlue),
           ),
         ],
       ),
