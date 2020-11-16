@@ -3,6 +3,7 @@ import 'package:safeworkout/backend/ExerciseBloc.dart';
 import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:safeworkout/backend/ExerciseImageInfo.dart';
+import 'package:safeworkout/globals.dart' as globals;
 
 
 class ExercisePage extends StatefulWidget {
@@ -99,18 +100,44 @@ class ExerciseList extends StatefulWidget {
 
 class _ExerciseListState extends State<ExerciseList> {
   List<bool> indexesSelected;
+  //List<Exercise> favorites;
   @override
   void initState() {
     super.initState();
     indexesSelected = new List(widget.exercises_images.length);
+    //favorites = new List();
     for(var index = 0; index < widget.exercises_images.length; index++) {
       indexesSelected[index] = false;
+      //print("CONTAINS? " + globals.favorites.contains(widget.exercises_images[index]).toString());
     }
   }
 
   void selected(index) {
+    print("\nexercises_images:");
     setState(() {
-      indexesSelected[index] = !indexesSelected[index];
+      for(var exercise in widget.exercises_images) {
+        print(exercise.toString());
+      }
+
+      //print(widget.exercises_images[index].toString());
+      //widget.exercises_images[index].favorite = !widget.exercises_images[index].favorite;
+      if(!globals.favorites.contains(widget.exercises_images[index])) {
+        widget.exercises_images[index].favorite = true;
+        globals.favorites.add(widget.exercises_images[index]);
+        print("Exercise " + index.toString() + " added! Length: " + globals.favorites.length.toString());
+      }
+      else {
+        widget.exercises_images[index].favorite = false;
+        globals.favorites.remove(widget.exercises_images[index]);
+        print("Exercise " + index.toString() + " removed! Length: " + globals.favorites.length.toString());
+      }
+
+      print("\nList of favs:");
+      for(var exercise in globals.favorites) {
+        print(exercise.toString());
+      }
+
+      
     });
   }
 
@@ -118,6 +145,7 @@ class _ExerciseListState extends State<ExerciseList> {
   Widget build(BuildContext context) {
 
     bool isSearching=false;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
@@ -213,13 +241,14 @@ class _ExerciseListState extends State<ExerciseList> {
                                   title: Text(widget.exercises_images[index].name,
                                     style: TextStyle(fontSize: 20),),
                                   trailing: IconButton(
-                                    icon: Icon(Icons.favorite),
+                                    icon: Icon(Icons.star_border),
                                     onPressed: () {
                                       //_indexesSelected[index] = true;
                                       selected(index);
-                                      print("FAVORITE!" + index.toString());
+                                      //print("FAVORITE " + index.toString() + ":" + globals.favorites.contains(widget.exercises_images[index]).toString());
                                     },
-                                    color: indexesSelected[index] ? Colors.redAccent : Colors.grey,
+                                    //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
+                                    color: widget.exercises_images[index].favorite ? Colors.yellow : Colors.grey,
                                   ),
                                 ),
                               ],

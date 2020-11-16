@@ -33,9 +33,10 @@ class Exercise {
   List<dynamic> muscles_secondary;
   List<dynamic> equipment;
   String image;
+  bool favorite = false;
 
   Exercise({this.id, this.description, this.name, this.category, this.muscles, 
-            this.muscles_secondary, this.equipment, this.image});
+            this.muscles_secondary, this.equipment, this.image, this.favorite});
   
   Exercise.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,6 +59,11 @@ class Exercise {
     data['equipment'] = this.equipment;
 
     return data;
+  }
+
+  @override 
+  String toString() {
+    return "id: " + id.toString() + ", name:" + name + ", category: " + category.toString() + ", favorite: " + favorite.toString();
   }
 }
 
