@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/globals.dart' as globals;
+import 'package:safeworkout/backend/ExerciseCategory.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override
@@ -15,8 +16,20 @@ class _FavoritesPageState extends State<FavoritesPage> {
     });
   }
 
+  String categoryName(int cat, List<Map<String, Object>> list) {
+    String name;
+    for(var map in list) {
+      if(cat == map['id'])
+        name = map['name'];
+    }
+
+    return name;
+  }
+
   @override 
   Widget build(BuildContext context) {
+    var category = ExerciseCategory.muscleGroups;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -84,6 +97,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 leading: Image.network(globals.favorites[index].image, width: 50),
                                 title: Text(globals.favorites[index].name,
                                   style: TextStyle(fontSize: 20),),
+                                  subtitle: Text(categoryName(globals.favorites[index].category, category)),
                                 trailing: IconButton(
                                   icon: Icon(Icons.star_border),
                                   onPressed: () {
