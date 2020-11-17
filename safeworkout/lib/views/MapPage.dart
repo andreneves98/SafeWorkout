@@ -5,6 +5,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safeworkout/models/parks.dart';
+import 'dart:math' as math;
 
 class MapPage extends StatefulWidget {
   @override
@@ -63,18 +64,16 @@ class _MapPageState extends State<MapPage> {
       MarkerId markerId=MarkerId(p.name);
       double longitude= double.parse(p.longitude);
       double latitude=double.parse(p.latitude);
-      double distance=Geolocator.distanceBetween(latitude, longitude,_currentPosition.latitude, _currentPosition.longitude);
+      double distance=Geolocator.distanceBetween(_convertRadiansTodegrees(_currentPosition.latitude), _convertRadiansTodegrees(_currentPosition.longitude),_convertRadiansTodegrees(latitude),_convertRadiansTodegrees(longitude));
       Marker m=Marker(
         position: LatLng(
          longitude,
          latitude,
-
           ),
           infoWindow: InfoWindow(
             title: p.name +",Distance=$distance",
            ) ,
-          onTap: (){
-          },
+         
           markerId: markerId,
           visible: true,
           icon: BitmapDescriptor.defaultMarker,
@@ -113,7 +112,10 @@ class _MapPageState extends State<MapPage> {
      });
    
   }
-
+  _convertRadiansTodegrees(double radians){
+     double degrees = (180 /math.pi) * radians;
+     return (degrees);
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
