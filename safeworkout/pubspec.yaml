@@ -29,6 +29,15 @@ dependencies:
   youtube_player_flutter: ^6.0.3+2
   firebase_auth: ^0.18.3 
   firebase_core : ^0.5.2
+  permission_handler: ^5.0.1+1
+  #location: ^3.1.0
+  geolocator: ^6.1.6
+  flutter_google_places: ^0.2.6
+  search_map_place: ^0.3.0
+  flutter_polyline_points: ^0.2.4
+  google_maps_webservice: ^0.0.18
+  geocoder: ^0.2.1
+  dio: ^3.0.10
 
 
   # The following adds the Cupertino Icons font to your application.
