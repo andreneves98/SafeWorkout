@@ -4,6 +4,9 @@ import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:safeworkout/backend/ExerciseImageInfo.dart';
 import 'package:safeworkout/globals.dart' as globals;
+import 'package:safeworkout/views/LogIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safeworkout/views/FavoritesPage.dart';
 
 
 class ExercisePage extends StatefulWidget {
@@ -237,7 +240,7 @@ class _ExerciseListState extends State<ExerciseList> {
                                       Scaffold.of(context).showSnackBar(snackBar);
                                     },
                                     //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
-                                    color: widget.exercises_images[index].favorite ? Colors.yellow : Colors.grey,
+                                    color: widget.exercises_images[index].favorite ? Colors.yellow[600] : Colors.grey,
                                   ),
                                 ),
                               ],
@@ -273,13 +276,12 @@ class _ExerciseListState extends State<ExerciseList> {
         onTap: _onItemTapped,
       ),*/
       
-      /*drawer: Drawer(
+      drawer: Drawer(
         child: ListView(
-
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 300,
+              height: 270,
               width: 200,
               child: DrawerHeader(
                 child: Text(""),
@@ -287,62 +289,96 @@ class _ExerciseListState extends State<ExerciseList> {
                   color: Colors.blue[600],
                   image: DecorationImage (
                     image: AssetImage('images/logo.jpg'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.fitWidth
                   )
                 ),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person_pin),
-              title: this.widget.isLogged? 
-                      Text('Sign as '+this.widget.user.email)
-                      :Text('Guest'),
-              
+              leading: globals.isLogged ? CircleAvatar(backgroundImage: NetworkImage("https://banner2.cleanpng.com/20180626/fhs/kisspng-avatar-user-computer-icons-software-developer-5b327cc98b5780.5684824215300354015708.jpg"))
+              : CircleAvatar(backgroundImage: NetworkImage("https://www.plataformadialetica.com/images/2020/04/10/team1.jpg")),
+              title: Text("Signed in as"),
+              subtitle: globals.isLogged ? 
+                      Text(globals.user.email)
+                      : Text('Guest'),
             ),
-            ListTile(
-              leading: Icon(Icons.pie_chart),
-              title: Text('Nutrition'),
-              
-            ),
-            ListTile(
-              leading: Icon(Icons.fitness_center),
-              title: Text('Workout Plan'),
-              //enabled: this.widget.isLogged,
 
+            Divider(
+              height: 30,
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              enabled: this.widget.isLogged,
 
-            ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Signout'),
-              enabled: this.widget.isLogged,
-              onTap: () async {
-                  dynamic result=await signOut();
-                  if(result==null){
-                    print("There are no user logedIn");
-                  }else{
-                    print(result);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                    }
-              }), 
-              ListTile(
-              leading: Icon(Icons.favorite),
+              leading: Icon(Icons.star_border, color: Colors.yellow[600],),
               title: Text('Favorites'),
-              enabled: this.widget.isLogged,
+              enabled: globals.isLogged,
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
               }
             ),
+            ListTile(
+              leading: Icon(Icons.pie_chart_outlined, color: Colors.green[300],),
+              title: Text('Nutrition'),
+              enabled: globals.isLogged,
+            ),
+            ListTile(
+              leading: Icon(Icons.qr_code, color: Colors.blue[300],),
+              title: Text('Share'),
+              enabled: globals.isLogged,
+              onTap: () {
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+              }
+            ),
+
+            Divider(
+              height: 30,
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: RaisedButton(
+                color: Colors.red,
+                elevation: 5.0,
+                shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.logout, color: Colors.white,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text("Sign out", style: TextStyle(color: Colors.white),)
+                    )
+                  ],
+                ),
+                onPressed: () async {
+                  dynamic result=await signOut();
+                  if(result==null) {
+                    print("There are no user logedIn");
+                  } else {
+                    print(result);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                  }
+                },
+            )
+            )
+            
           ],
         ),
-      )*/
+      )
     );
   }
 
+}
+
+Future signOut() async{
+  try {
+    User user= (await FirebaseAuth.instance.currentUser);
+    await FirebaseAuth.instance.signOut();
+    return user.uid;
+  } catch(e) {
+    print(e.toString());
+    return null;
+  }
 }
 
 class Error extends StatelessWidget {

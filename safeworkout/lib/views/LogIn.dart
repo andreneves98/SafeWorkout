@@ -1,6 +1,6 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:safeworkout/globals.dart' as globals;
 
 import 'HomePage.dart';
 
@@ -27,11 +27,11 @@ bool validateAndSave() {
   }
   
 Future<User> validateAndSubmit() async{
-  User user;
+  //User user;
 
   if (validateAndSave()){
     try {
-       user= (await _auth.signInWithEmailAndPassword(
+       globals.user= (await _auth.signInWithEmailAndPassword(
         email: _email,
         password:_password
       )).user;
@@ -40,18 +40,18 @@ Future<User> validateAndSubmit() async{
       print(e.message);
       _showAlertDialog(e.message);
     }
-    if(user.uid!=null){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user:user)));
+    if(globals.user.uid!=null){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     }
     else{
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
   }
-  return user; 
+  return globals.user; 
 }
 
 Future<User>enterAsGuest()async{
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user:null)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     return null;
 }
 void _showAlertDialog(String message) async {
