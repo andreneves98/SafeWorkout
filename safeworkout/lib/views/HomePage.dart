@@ -5,6 +5,7 @@ import 'package:safeworkout/views/MapPage.dart';
 import 'package:safeworkout/views/FeedPage.dart';
 import 'package:safeworkout/views/FavoritesPage.dart';
 import 'package:safeworkout/globals.dart' as globals;
+import 'package:safeworkout/views/YoutubeChannelFeed.dart';
 
 import 'LogIn.dart';
 
@@ -26,7 +27,7 @@ class HomePage extends StatelessWidget {
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget();
+  //MyStatefulWidget();
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -148,9 +149,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ListTile(
               leading: Icon(Icons.video_collection_outlined, color: Colors.green[300],),
               title: Text('Workout Videos'),
-              enabled: globals.isLogged,
+              enabled:true,// globals.isLogged,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeVPage()));
               },
             ),
             ListTile(

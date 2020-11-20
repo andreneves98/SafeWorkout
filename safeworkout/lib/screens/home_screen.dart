@@ -4,6 +4,7 @@ import 'package:safeworkout/models/channel_model.dart';
 import 'package:safeworkout/models/video_model.dart';
 import 'package:safeworkout/screens/video_screen.dart';
 import 'package:safeworkout/services/api_services.dart';
+import 'package:safeworkout/globals.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _initChannel() async {
     Channel channel = await APIService.instance
-        .fetchChannel(channelId: 'UCOFCwvhDoUvYcfpD7RJKQwA');
+        .fetchChannel(channelId: globals.channelID);
     setState(() {
       _channel = channel;
     });

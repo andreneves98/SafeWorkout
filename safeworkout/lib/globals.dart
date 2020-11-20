@@ -5,3 +5,4 @@ import 'package:firebase_auth/firebase_auth.dart';
 List<Exercise> favorites = new List();
 User user;
 bool isLogged;
+String channelID ;
