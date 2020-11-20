@@ -39,7 +39,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> bottomwidgetOptions = <Widget>[
     // Home page
     home(),
     
@@ -56,14 +56,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      globals.bottomwidgetOptions=bottomwidgetOptions;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
+    
     return Scaffold(
-      appBar: AppBar(
+      appBar:globals.myAppBar= myAppBar(context),
+      body: Container(
+        child: bottomwidgetOptions.elementAt(_selectedIndex),
+        /*decoration: BoxDecoration(
+          image:DecorationImage(
+            image: AssetImage("images/TrainersBackground.png"),
+            fit: BoxFit.cover
+            ),
+          ),*/
+      ),
+      bottomNavigationBar:globals.myBottomNavigationBar(context,_selectedIndex,_onItemTapped),
+      drawer:globals.myDrawer= myDrawer(context),
+    );
+  }
+}
+Widget myAppBar(context){
+   return AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[100],
         elevation: 0,
@@ -75,41 +92,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
           ),
         title: Text("SafeWorkout", style: TextStyle(color: Colors.red[500], fontSize: 30),),
-      ),
+      );
+}
 
-      body: Container(
-        child: _widgetOptions.elementAt(_selectedIndex),
-        /*decoration: BoxDecoration(
-          image:DecorationImage(
-            image: AssetImage("images/TrainersBackground.png"),
-            fit: BoxFit.cover
-            ),
-          ),*/
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center),
-            label: 'Exercises',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red[400],
-        onTap: _onItemTapped,
-      ),
-      
-      drawer: Drawer(
+Widget myDrawer(context){
+  return  Drawer(
+        
         child: ListView(
           padding: EdgeInsets.zero,
+          
           children: <Widget>[
             Container(
               height: 270,
@@ -132,6 +123,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               subtitle: globals.isLogged ? 
                       Text(globals.user.email)
                       : Text('Guest'),
+              
             ),
 
             Divider(
@@ -198,11 +190,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             
           ],
         ),
-      )
-    );
-  }
+      );
 }
-
 Widget home() {
   return Container(
     margin: EdgeInsets.all(5.0),

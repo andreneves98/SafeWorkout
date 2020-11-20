@@ -21,11 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _initChannel();
   }
 
-  _initChannel() async {
-    Channel channel = await APIService.instance
-        .fetchChannel(channelId: globals.channelID);
+  _initChannel(){
+   // Channel channel = await APIService.instance
+     //   .fetchChannel(channelId: globals.channelID);
     setState(() {
-      _channel = channel;
+      _channel = globals.channel;
     });
   }
 

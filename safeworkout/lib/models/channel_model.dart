@@ -28,6 +28,7 @@ class Channel {
       subscriberCount: map['statistics']['subscriberCount'],
       videoCount: map['statistics']['videoCount'],
       uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
+
     );
   }
 

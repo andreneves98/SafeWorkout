@@ -37,6 +37,8 @@ dependencies:
   dio: ^3.0.10
   android_metadata: ^0.1.2
   intl: ^0.16.1
+  loading: ^1.0.2
+
 
 
   # The following adds the Cupertino Icons font to your application.
