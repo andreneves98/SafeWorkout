@@ -37,7 +37,8 @@ class _YoutubeVPage extends State<YoutubeVPage> {
      
     // TODO: implement build
     return Scaffold(
-      appBar: globals.myAppBar,
+      appBar: globals.myAppBar
+      ,
             
       drawer: globals.myDrawer,
       
@@ -47,19 +48,36 @@ class _YoutubeVPage extends State<YoutubeVPage> {
           color: Colors.white,
         child:Column(
            children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Text("Channels", 
-                  style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black
-                  )
-                )
-              ,)
-            ),   
+                Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ]
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text("Famous workout channels", 
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
+                          )
+                        )
+                      )
+                    ]
+                  )                
+                ],
+              ), 
           Expanded(
             child:FutureBuilder(
               future: _createvideoList(),
@@ -80,7 +98,7 @@ class _YoutubeVPage extends State<YoutubeVPage> {
 
               else{
                     return ListView.builder (
-                      itemCount:4, 
+                      itemCount:6, 
                       itemBuilder:( context, index){
                           return GestureDetector(
                             onTap:(){
@@ -103,7 +121,12 @@ class _YoutubeVPage extends State<YoutubeVPage> {
                                   Padding(
                                     padding:const EdgeInsets.only(top:8.0,bottom:8.0),
                                     child: Row(children: <Widget>[
-                                    Text ("ChanneName${snapshot.data[index].title}"),
+                                    Text ("${snapshot.data[index].title}",
+                                          style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black
+                                          )),
 
                               ],
                               ),
@@ -127,9 +150,9 @@ class _YoutubeVPage extends State<YoutubeVPage> {
     List<Channel> tmpList=[];
     List<String>  channelsID  =
         ['UCOFCwvhDoUvYcfpD7RJKQwA','UCgBTevPW8fsH4pQNrLufOsQ'
-        ,'UCkbRJKtiIoQ330fAZiE9_sg','UCK5PP5Up6Dz80dv5G4XuiiA'
-      //  'UC68TLK0mAEzUyHx5x5k','UCqjwF8rxRsotnojGl4gM0Zw',
-        //'_faz2gINcwGEf9A6ZZg','UCEtMRF1ywKMc4sf3EXYyDzw'
+        ,'UCkbRJKtiIoQ330fAZiE9_sg','UCK5PP5Up6Dz80dv5G4XuiiA',
+        /* 'UC68TLK0mAEzUyHx5x5k',*/'UCqjwF8rxRsotnojGl4gM0Zw',
+       //'_faz2gINcwGEf9A6ZZg',//'UCEtMRF1ywKMc4sf3EXYyDzw'
         ];
     for (var channelID in channelsID) {
         print("$channelID");
@@ -143,31 +166,5 @@ class _YoutubeVPage extends State<YoutubeVPage> {
           });*/
       return tmpList;
 }
-    /*
-    Widget BuildYoutubeCard(BuildContext context, int index,String channelID) {
-        globals.channelID= channelID;
-        final String chInfo=channeList[index];
-            return new Card(
-                    child:Row(
-                      children: <Widget>[
-                          Container(
-                            width:100,
-                            height:100,
-                            child: Text("AQUI VAI SER A IMAGEM ???"),
-                          ),
-                        Padding(
-                          padding:const EdgeInsets.only(top:8.0,bottom:8.0),
-                          child: Row(children: <Widget>[
-                          Text ("ChannelID=$chInfo"),
-                    ],
-                    ),
-                  )
-                ],
-              ) 
-           
-          ); 
-        }
-    
-      // ignore: non_constant_identifier_names
-     */ 
+  
 }

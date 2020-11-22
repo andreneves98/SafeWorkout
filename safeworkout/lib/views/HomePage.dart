@@ -169,10 +169,15 @@ Widget myDrawer(context){
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.logout, color: Colors.white,),
+                    globals.isLogged ? 
+                    Icon(Icons.logout, color: Colors.white,):
+                    Icon(Icons.exit_to_app, color: Colors.white,),
                     Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text("Sign out", style: TextStyle(color: Colors.white),)
+                      child:globals.isLogged ?
+                        Text("Sign out", style: TextStyle(color: Colors.white),):
+                        Text("Exit", style: TextStyle(color: Colors.white),)
+
                     )
                   ],
                 ),
@@ -180,8 +185,6 @@ Widget myDrawer(context){
                   dynamic result=await signOut();
                   if(result==null) {
                     print("There are no user logedIn");
-                  } else {
-                    print(result);
                     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                   }
                 },
