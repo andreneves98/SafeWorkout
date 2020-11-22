@@ -44,6 +44,7 @@ class _YoutubeVPage extends State<YoutubeVPage> {
       //bottomNavigationBar: globals.myBottomNavigationBar(context,_selectedIndex,_onItemTapped),
       body:
         Container(
+          color: Colors.white,
         child:Column(
            children: <Widget>[
             Align(
@@ -91,6 +92,7 @@ class _YoutubeVPage extends State<YoutubeVPage> {
                         
                       child://BuildYoutubeCard(context,index,channelID[index])  ,
                         Card(
+                          elevation: 5,
                               child:Row(
                                 children: <Widget>[
                                     Container(

@@ -7,6 +7,7 @@ import 'package:safeworkout/globals.dart' as globals;
 import 'package:safeworkout/views/LogIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeworkout/views/FavoritesPage.dart';
+import 'package:safeworkout/views/ExerciseInfoPage.dart';
 
 
 class ExercisePage extends StatefulWidget {
@@ -154,7 +155,7 @@ class _ExerciseListState extends State<ExerciseList> {
       appBar: globals.myAppBar,
       body: Center(
         child: Container(
-          color: Colors.grey[100],
+          color: Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -197,10 +198,12 @@ class _ExerciseListState extends State<ExerciseList> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
-                        /*onTap: () {
+                        onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MovieDetail(movieList[index].id)));
-                        },*/
+                              builder: (context) => ExerciseInfoPage(widget.exercises_images[index].image, 
+                              widget.exercises_images[index].name, widget.exercises_images[index].description, 
+                              widget.categoryName)));
+                        },
                         child: Card(
                           elevation: 5,
                           child: Padding(
@@ -244,25 +247,6 @@ class _ExerciseListState extends State<ExerciseList> {
           )
         ),
       ),
-      /*bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_label),
-            label: 'Videos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[300],
-        onTap: _onItemTapped,
-      ),*/
       
       drawer:globals.myDrawer,
     );

@@ -20,7 +20,7 @@ class _FeedPageState extends State<FeedPage> {
     /* GRID IMPLEMENTATION */
     return Scaffold(
       body: Container(
-        color: Colors.grey[100],
+        color: Colors.white,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,

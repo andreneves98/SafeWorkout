@@ -82,7 +82,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 Widget myAppBar(context){
    return AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         leading: Builder(
@@ -192,89 +192,131 @@ Widget myDrawer(context){
         ),
       );
 }
+
 Widget home() {
-  return Container(
-    margin: EdgeInsets.all(5.0),
-    padding: EdgeInsets.all(10.0),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: 
-            Text("Workout categories",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 23,
-                fontWeight: FontWeight.bold
-              ),)
-        ),
-
-        Card(
-          elevation: 5.0,
-          margin: EdgeInsets.all(10.0),
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            width: 400,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/TrainersBackground.png"),
-                fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
+  return SingleChildScrollView(
+    child: Container(
+      margin: EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          /*Align(
+            alignment: Alignment.topLeft,
+            child: 
+              Text("Explore exercise categories",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold
+                ),)
+          ),*/
+          InkWell(
+            onTap: () {
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => FeedPage()));
+            },
+            child: Card(
+              elevation: 5.0,
+              margin: EdgeInsets.all(10.0),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                width: 400,
+                height: 190,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    //image: AssetImage("images/TrainersBackground.png"),
+                    image: NetworkImage("https://img.freepik.com/free-vector/people-gym_52683-4075.jpg?size=626&ext=jpg"),
+                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: 
+                    Text("Explore exercise categories",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                      ),)
+                ),
               ),
-            ),
-            child: Text("YOUR TEXT"),
+            )
           ),
-        ),
 
-        RaisedButton(
-          color: Colors.red,
-                elevation: 5.0,
-                /*shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),*/
-          child: Text("text"),
-          onPressed: () {},
-        )
-        
-        /*Text("Browse through exercises sorted by category.",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          )
-        ),*/
+          InkWell(
+            onTap: () {
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => FeedPage()));
+            },
+            child: Card(
+              elevation: 5.0,
+              margin: EdgeInsets.all(10.0),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                width: 400,
+                height: 190,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    //image: AssetImage("images/TrainersBackground.png"),
+                    image: NetworkImage("https://media.istockphoto.com/vectors/girl-watching-online-classes-on-laptop-and-doing-workout-at-home-vector-id1256291769?k=6&m=1256291769&s=612x612&w=0&h=svS-hNMzBPSXzD4rI3Q_x161QvtXyPIl4wUwUDd2SLI="),
+                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: 
+                    Text("Workout at home",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                      ),)
+                ),
+              ),
+            )
+          ),
 
-        /*Row(
-          children: [
-            Text("Browse through exercises sorted by category.",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              )
-            ),
-          ]
-        ,),
-
-        ListTile(
-          title: 
-            Text("Browse through exercises sorted by category.",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              )
-            ),
-          trailing: CircleAvatar(
-            backgroundColor: Colors.white,
-              child: Icon(
-              Icons.fitness_center,
-              color: Colors.red,
-              size: 35,
-            ),
-          )
-        )*/
-      ],
-    )
+          InkWell(
+            onTap: () {
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => FeedPage()));
+            },
+            child: Card(
+              elevation: 5.0,
+              margin: EdgeInsets.all(10.0),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                width: 400,
+                height: 190,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    //image: AssetImage("images/TrainersBackground.png"),
+                    image: NetworkImage("https://media.istockphoto.com/vectors/urban-park-vector-id543805962?k=6&m=543805962&s=612x612&w=0&h=3JAmaFvUNsj7cVib2vGahjBegDYhmYK7R8gW24wheDI="),
+                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: 
+                    Text("Discover public spaces near",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                      ),)
+                ),
+              ),
+            )
+          ),
+          
+        ],
+      )
+    ),
   );
 }
 

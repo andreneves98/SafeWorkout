@@ -3,6 +3,7 @@ import 'package:safeworkout/globals.dart' as globals;
 import 'package:safeworkout/backend/ExerciseCategory.dart';
 import 'package:safeworkout/views/LogIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safeworkout/views/ExerciseInfoPage.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override
@@ -35,7 +36,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return Scaffold(
       appBar:globals.myAppBar,
       body: Container(
-        color: Colors.grey[100],
+        color: Colors.white,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -73,10 +74,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
-                      /*onTap: () {
+                      onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MovieDetail(movieList[index].id)));
-                      },*/
+                            builder: (context) => ExerciseInfoPage(globals.favorites[index].image, 
+                              globals.favorites[index].name, globals.favorites[index].description, 
+                              categoryName(globals.favorites[index].category, category))));
+                      },
                       child: Card(
                         elevation: 5,
                         child: Padding(
