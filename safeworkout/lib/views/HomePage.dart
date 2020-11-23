@@ -6,6 +6,7 @@ import 'package:safeworkout/views/FeedPage.dart';
 import 'package:safeworkout/views/FavoritesPage.dart';
 import 'package:safeworkout/globals.dart' as globals;
 import 'package:safeworkout/views/YoutubeChannelFeed.dart';
+import 'package:safeworkout/views/SharePage.dart';
 
 import 'LogIn.dart';
 
@@ -151,7 +152,7 @@ Widget myDrawer(context){
               title: Text('Share'),
               enabled: globals.isLogged,
               onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SharePage()));
               }
             ),
 
@@ -205,16 +206,6 @@ Widget home() {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          /*Align(
-            alignment: Alignment.topLeft,
-            child: 
-              Text("Explore exercise categories",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold
-                ),)
-          ),*/
           InkWell(
             onTap: () {
               //Navigator.push(context, MaterialPageRoute(builder: (context) => FeedPage()));
@@ -228,8 +219,8 @@ Widget home() {
                 height: 190,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    //image: AssetImage("images/TrainersBackground.png"),
-                    image: NetworkImage("https://img.freepik.com/free-vector/people-gym_52683-4075.jpg?size=626&ext=jpg"),
+                    image: AssetImage("images/categories.jpg"),
+                    //image: NetworkImage("https://img.freepik.com/free-vector/people-gym_52683-4075.jpg?size=626&ext=jpg"),
                     colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
@@ -262,8 +253,8 @@ Widget home() {
                 height: 190,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    //image: AssetImage("images/TrainersBackground.png"),
-                    image: NetworkImage("https://media.istockphoto.com/vectors/girl-watching-online-classes-on-laptop-and-doing-workout-at-home-vector-id1256291769?k=6&m=1256291769&s=612x612&w=0&h=svS-hNMzBPSXzD4rI3Q_x161QvtXyPIl4wUwUDd2SLI="),
+                    image: AssetImage("images/home-workout.jpg"),
+                    //image: NetworkImage("https://media.istockphoto.com/vectors/girl-watching-online-classes-on-laptop-and-doing-workout-at-home-vector-id1256291769?k=6&m=1256291769&s=612x612&w=0&h=svS-hNMzBPSXzD4rI3Q_x161QvtXyPIl4wUwUDd2SLI="),
                     colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
@@ -296,8 +287,8 @@ Widget home() {
                 height: 190,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    //image: AssetImage("images/TrainersBackground.png"),
-                    image: NetworkImage("https://media.istockphoto.com/vectors/urban-park-vector-id543805962?k=6&m=543805962&s=612x612&w=0&h=3JAmaFvUNsj7cVib2vGahjBegDYhmYK7R8gW24wheDI="),
+                    image: AssetImage("images/park.jpg"),
+                    //image: NetworkImage("https://media.istockphoto.com/vectors/urban-park-vector-id543805962?k=6&m=543805962&s=612x612&w=0&h=3JAmaFvUNsj7cVib2vGahjBegDYhmYK7R8gW24wheDI="),
                     colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.35), BlendMode.darken),
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,

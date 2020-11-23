@@ -242,6 +242,9 @@ class _ExerciseListState extends State<ExerciseList> {
                               widget.categoryName)));
                         },
                         child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           elevation: 5,
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -253,7 +256,7 @@ class _ExerciseListState extends State<ExerciseList> {
                                   title: Text(widget.exercises_images[index].name,
                                     style: TextStyle(fontSize: 20),),
                                 
-                                  trailing:globals.isLogged? IconButton(
+                                  trailing: globals.isLogged ? IconButton(
                                     icon:Icon(Icons.star_border),
                                     onPressed:() {
                                       //enabled:globals.isLogged;
@@ -271,7 +274,7 @@ class _ExerciseListState extends State<ExerciseList> {
                                     },
                                     //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
                                     color: widget.exercises_images[index].favorite ? Colors.yellow[600] : Colors.grey,
-                                  ):null,
+                                  ) : null,
                                 ),
                               ],
                             ),
