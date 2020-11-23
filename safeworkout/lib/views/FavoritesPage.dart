@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safeworkout/globals.dart' as globals;
 import 'package:safeworkout/backend/ExerciseCategory.dart';
-import 'package:safeworkout/views/LogIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeworkout/views/ExerciseInfoPage.dart';
 

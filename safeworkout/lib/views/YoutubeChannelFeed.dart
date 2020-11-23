@@ -36,15 +36,13 @@ class _YoutubeVPage extends State<YoutubeVPage> {
   Widget build(BuildContext context) {
      
     // TODO: implement build
-    return Scaffold(
-      appBar: globals.myAppBar
-      ,
-            
+    return WillPopScope(
+      child: Scaffold(
+      appBar: globals.myAppBar,
       drawer: globals.myDrawer,
-      
       //bottomNavigationBar: globals.myBottomNavigationBar(context,_selectedIndex,_onItemTapped),
-      body:
-        Container(
+      body: 
+      Container(
           color: Colors.white,
         child:Column(
            children: <Widget>[
@@ -144,15 +142,42 @@ class _YoutubeVPage extends State<YoutubeVPage> {
         ],
       )
    )
+  ),
+  onWillPop: _onBackPressed,
+
   );
 }
+Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('You are going to exit the application!!'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('NO'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text('YES'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
+  }
  _createvideoList() async {
     List<Channel> tmpList=[];
     List<String>  channelsID  =
         ['UCOFCwvhDoUvYcfpD7RJKQwA','UCgBTevPW8fsH4pQNrLufOsQ'
         ,'UCkbRJKtiIoQ330fAZiE9_sg','UCK5PP5Up6Dz80dv5G4XuiiA',
-        /* 'UC68TLK0mAEzUyHx5x5k',*/'UCqjwF8rxRsotnojGl4gM0Zw',
-       //'_faz2gINcwGEf9A6ZZg',//'UCEtMRF1ywKMc4sf3EXYyDzw'
+        /*'UCC7AJ-P3n4j02i-YzReHCNw',*/'UCqjwF8rxRsotnojGl4gM0Zw',
+       /*'_faz2gINcwGEf9A6ZZg',*/'UCEtMRF1ywKMc4sf3EXYyDzw'
         ];
     for (var channelID in channelsID) {
         print("$channelID");

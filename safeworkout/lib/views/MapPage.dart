@@ -64,14 +64,14 @@ class _MapPageState extends State<MapPage> {
       MarkerId markerId=MarkerId(p.name);
       double longitude= double.parse(p.longitude);
       double latitude=double.parse(p.latitude);
-      double distance=Geolocator.distanceBetween(_convertRadiansTodegrees(_currentPosition.latitude), _convertRadiansTodegrees(_currentPosition.longitude),_convertRadiansTodegrees(latitude),_convertRadiansTodegrees(longitude));
+     // double distance=Geolocator.distanceBetween(_convertRadiansTodegrees(_currentPosition.latitude), _convertRadiansTodegrees(_currentPosition.longitude),_convertRadiansTodegrees(latitude),_convertRadiansTodegrees(longitude));
       Marker m=Marker(
         position: LatLng(
          longitude,
          latitude,
           ),
           infoWindow: InfoWindow(
-            title: p.name +",Distance=$distance",
+            title: p.name,
            ) ,
          
           markerId: markerId,

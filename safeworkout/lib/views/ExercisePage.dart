@@ -4,9 +4,8 @@ import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:safeworkout/backend/ExerciseImageInfo.dart';
 import 'package:safeworkout/globals.dart' as globals;
-import 'package:safeworkout/views/LogIn.dart';
+import 'package:safeworkout/views/HomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:safeworkout/views/FavoritesPage.dart';
 import 'package:safeworkout/views/ExerciseInfoPage.dart';
 
 
@@ -35,16 +34,7 @@ class _ExercisePageState extends State<ExercisePage> {
     super.initState();
   }
 
-  /*List<bool> _indexesSelected;
-  void _selected(index) {
-    setState(() {
-      //List<bool> _indexesSelected = new List<bool>(exercises_images.length);
-    /*for(var index = 0; index < exercises_images.length; index++) {
-      _indexesSelected[index] = false;
-    }*/
-    _indexesSelected.insert(index, true);
-    });
-  }*/
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +45,12 @@ class _ExercisePageState extends State<ExercisePage> {
     //final ExerciseBloc exerciseBloc = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () => _exerciseBloc.mergeImages(categoryIndex),
-        child: StreamBuilder(
+      
+        body:WillPopScope(
+          onWillPop: _onBackPressed,
+          child: RefreshIndicator(
+          onRefresh: () => _exerciseBloc.mergeImages(categoryIndex),
+          child: StreamBuilder(
           stream: _exerciseBloc.exerciseImageListStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -80,6 +73,7 @@ class _ExercisePageState extends State<ExercisePage> {
           },
         ),
       ),
+    )
     );
   }
 
@@ -87,6 +81,32 @@ class _ExercisePageState extends State<ExercisePage> {
   void dispose() {
     _exerciseBloc.dispose();
     super.dispose();
+  }
+  
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('You are going to exit the application!!'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('NO'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text('YES'),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)  {
+                  return  HomePage();
+                }));                },
+              ),
+            ],
+          );
+        });
   }
 }
 
@@ -104,6 +124,8 @@ class ExerciseList extends StatefulWidget {
 
 class _ExerciseListState extends State<ExerciseList> {
   List<bool> indexesSelected;
+  GlobalKey<NavigatorState> _key = GlobalKey();
+
   //List<Exercise> favorites;
   @override
   void initState() {
@@ -151,9 +173,24 @@ class _ExerciseListState extends State<ExerciseList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return  Scaffold(
+      
+      
       appBar: globals.myAppBar,
-      body: Center(
+      body: 
+        WillPopScope(
+          
+          onWillPop: () async {
+            print("I am doing something here");
+            if (Navigator.canPop(context)) {
+
+              Navigator.pop(context);
+              return false;
+            }
+            return true;
+            },
+        child:Center(
         child: Container(
           color: Colors.white,
           child: Column(
@@ -215,9 +252,11 @@ class _ExerciseListState extends State<ExerciseList> {
                                   leading: Image.network(widget.exercises_images[index].image, width: 50),
                                   title: Text(widget.exercises_images[index].name,
                                     style: TextStyle(fontSize: 20),),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.star_border),
-                                    onPressed: () {
+                                
+                                  trailing:globals.isLogged? IconButton(
+                                    icon:Icon(Icons.star_border),
+                                    onPressed:() {
+                                      //enabled:globals.isLogged;
                                       var text = selected(index);
                                       final snackBar = SnackBar(
                                         content: Text(text ? "Exercise added to your favorites!" : "Exercise removed from your favorites!"),
@@ -232,7 +271,7 @@ class _ExerciseListState extends State<ExerciseList> {
                                     },
                                     //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
                                     color: widget.exercises_images[index].favorite ? Colors.yellow[600] : Colors.grey,
-                                  ),
+                                  ):null,
                                 ),
                               ],
                             ),
@@ -247,8 +286,9 @@ class _ExerciseListState extends State<ExerciseList> {
           )
         ),
       ),
-      
-      drawer:globals.myDrawer,
+    ),
+    drawer:globals.myDrawer,
+
     );
   }
 

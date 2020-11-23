@@ -1,4 +1,5 @@
 library safeworkout.globals;
+
 import 'package:flutter/material.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,4 +36,8 @@ Widget myBottomNavigationBar(context,_selectedIndex,_onItemTapped){
         selectedItemColor: Colors.red[400],
         onTap: _onItemTapped,
       );
+}
+
+Future<bool> onBackPressed(){
+  // Navigator.pop();
 }

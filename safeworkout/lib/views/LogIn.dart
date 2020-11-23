@@ -5,13 +5,15 @@ import 'package:safeworkout/globals.dart' as globals;
 import 'HomePage.dart';
 
 class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
+
   @override
   _LoginPageState createState() => new _LoginPageState();
   
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+  GlobalKey<NavigatorState> _key = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -41,7 +43,9 @@ Future<User> validateAndSubmit() async{
       _showAlertDialog(e.message);
     }
     if(globals.user.uid!=null){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)  {
+      return  HomePage();
+      }));
     }
     else{
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -50,9 +54,11 @@ Future<User> validateAndSubmit() async{
   return globals.user; 
 }
 
-Future<User>enterAsGuest()async{
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-    return null;
+Future<void>enterAsGuest()async{
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return  HomePage();
+    }));
+  
 }
 void _showAlertDialog(String message) async {
     
@@ -76,9 +82,12 @@ void _showAlertDialog(String message) async {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-       resizeToAvoidBottomPadding: false ,
-       body:Form(
+    return  Scaffold(
+      // key: _key,
+       body:WillPopScope(
+         key: _key,
+         onWillPop: _onBackPressed,
+         child: Form(
          key: _formKey,
          child: Column(
            children: <Widget>[
@@ -165,10 +174,34 @@ void _showAlertDialog(String message) async {
 	          ],
 	        ),
 	      ),
-      );
+      )
+    );
   }
 
-  
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('You are going to exit the application!!'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('NO'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text('YES'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
+  }
 /*
  body: new SingleChildScrollView(child: new Container(
         padding: const EdgeInsets.all(16.0),
