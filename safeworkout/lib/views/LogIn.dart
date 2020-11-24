@@ -84,6 +84,7 @@ void _showAlertDialog(String message) async {
   Widget build(BuildContext context) {
     return  Scaffold(
       // key: _key,
+       resizeToAvoidBottomPadding: false,
        body:WillPopScope(
          key: _key,
          onWillPop: _onBackPressed,

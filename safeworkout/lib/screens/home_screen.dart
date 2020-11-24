@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _buildProfileInfo() {
     return Container(
+      
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
       height: 100.0,
@@ -46,6 +47,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: <Widget>[
+            Column(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ]
+            ),
           CircleAvatar(
             backgroundColor: Colors.white,
             radius: 35.0,
@@ -141,7 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+      appBar: globals.myAppBar,
+      drawer: globals.myDrawer,
       body: _channel != null
           ? NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollDetails) {

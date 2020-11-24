@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:safeworkout/globals.dart' as globals;
 
 class VideoScreen extends StatefulWidget {
 
@@ -30,15 +31,33 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: YoutubePlayer(
+      appBar: globals.myAppBar,
+      drawer: globals.myDrawer,
+      body:
+      
+        Container(
+         child:Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+
+              children: [
+                
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+       YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
         
         onReady: () {
           print('Player is ready.');
         },
+       ), 
+      ],
       ),
+    )
     );
   }
 }

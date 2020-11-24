@@ -46,6 +46,8 @@ class Exercise {
     muscles = json['muscles'];
     muscles_secondary = json['muscles_secondary'];
     equipment = json['equipment'];
+    image=json['image'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +59,8 @@ class Exercise {
     data['muscles'] = this.muscles;
     data['muscles_secondary'] = this.muscles_secondary;
     data['equipment'] = this.equipment;
+    data['image']=this.image;
+
 
     return data;
   }

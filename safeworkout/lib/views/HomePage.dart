@@ -58,6 +58,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     setState(() {
       _selectedIndex = index;
       globals.bottomwidgetOptions=bottomwidgetOptions;
+      globals.updateFavorite();
+
     });
   }
 
@@ -136,6 +138,7 @@ Widget myDrawer(context){
               title: Text('Favorite Exercises'),
               enabled: globals.isLogged,
               onTap: () {
+                globals.updateFavorite();
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritesPage()));
               }
             ),

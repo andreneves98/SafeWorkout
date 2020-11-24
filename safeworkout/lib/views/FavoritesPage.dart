@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:safeworkout/globals.dart' as globals;
 import 'package:safeworkout/backend/ExerciseCategory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safeworkout/repository/databaseExercise.dart';
 import 'package:safeworkout/views/ExerciseInfoPage.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -14,8 +15,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
   void selected(index) {
     setState(() {
       //globals.favorites[index].favorite = !globals.favorites[index].favorite;
+      removeExercise(globals.favorites[index]);
       globals.favorites.removeAt(index);
-    });
+      globals.updateFavorite();    });
   }
 
   String categoryName(int cat, List<Map<String, Object>> list) {
@@ -91,10 +93,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 title: Text(globals.favorites[index].name,
                                   style: TextStyle(fontSize: 20),),
                                   subtitle: Text(categoryName(globals.favorites[index].category, category)),
-                                trailing: IconButton(
+                                trailing:globals.isLogged? IconButton(
                                   icon: Icon(Icons.star_border),
                                   onPressed: () {
                                     selected(index);
+                                    //globals.updateFavorite();
+
                                     final snackBar = SnackBar(
                                       content: Text("Exercise removed from your favorites!"),
                                       action: SnackBarAction(
@@ -108,7 +112,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                   },
                                   //color: globals.favorites.contains(widget.exercises_images[index]) ? Colors.yellow : Colors.grey,
                                   color: globals.favorites[index].favorite ? Colors.yellow[600] : Colors.grey,
-                                ),
+                                ):null,
                               ),
                             ],
                           ),

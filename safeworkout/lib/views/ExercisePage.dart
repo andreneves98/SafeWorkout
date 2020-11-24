@@ -4,6 +4,7 @@ import 'package:safeworkout/api/ApiResponse.dart';
 import 'package:safeworkout/backend/ExerciseInfo.dart';
 import 'package:safeworkout/backend/ExerciseImageInfo.dart';
 import 'package:safeworkout/globals.dart' as globals;
+import 'package:safeworkout/repository/databaseExercise.dart';
 import 'package:safeworkout/views/HomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeworkout/views/ExerciseInfoPage.dart';
@@ -148,15 +149,19 @@ class _ExerciseListState extends State<ExerciseList> {
 
       //print(widget.exercises_images[index].toString());
       //widget.exercises_images[index].favorite = !widget.exercises_images[index].favorite;
-      if(!globals.favorites.contains(widget.exercises_images[index])) {
+      if(!globals.favContainsExercise(widget.exercises_images[index])) {
         widget.exercises_images[index].favorite = true;
-        globals.favorites.add(widget.exercises_images[index]);
+        //globals.favorites.add(widget.exercises_images[index]);
+        saveExercise(widget.exercises_images[index]);
+
         print("Exercise " + index.toString() + " added! Length: " + globals.favorites.length.toString());
         result = true;
       }
       else {
         widget.exercises_images[index].favorite = false;
-        globals.favorites.remove(widget.exercises_images[index]);
+        //globals.favorites.remove(widget.exercises_images[index]);
+        removeExercise(widget.exercises_images[index]);
+
         print("Exercise " + index.toString() + " removed! Length: " + globals.favorites.length.toString());
         result = false;
       }
@@ -165,6 +170,7 @@ class _ExerciseListState extends State<ExerciseList> {
       for(var fav in globals.favorites) {
         print(fav.toString());
       }
+      globals.updateFavorite();
 
     });
 
