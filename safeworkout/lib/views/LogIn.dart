@@ -83,14 +83,17 @@ void _showAlertDialog(String message) async {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+        
       // key: _key,
        resizeToAvoidBottomPadding: false,
        body:WillPopScope(
+        
          key: _key,
          onWillPop: _onBackPressed,
          child: Form(
          key: _formKey,
          child: Column(
+           
            children: <Widget>[
              Container(
                height: 300,
@@ -165,7 +168,14 @@ void _showAlertDialog(String message) async {
 	                      child: Text("Enter as a guest", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                         ),
                       color: Colors.black26,
-                      onPressed: enterAsGuest,
+                      onPressed: (){
+                        _email="";
+                        _password="";
+                        //validateAndSubmit();
+                        globals.user=null;
+                        enterAsGuest();
+
+                      },
                       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0))     
 	                    ),	
                     )
@@ -203,46 +213,7 @@ void _showAlertDialog(String message) async {
           );
         });
   }
-/*
- body: new SingleChildScrollView(child: new Container(
-        padding: const EdgeInsets.all(16.0),
-        child:new Column (
-          children: [
-            new Card(
-              child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: new Form(
-                    key: _formKey,
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children:   usernameAndPassword()+submitButtons(),     
-                      )
-                  ) 
-                ),
-              ])
-            ),
-          ]
-        )
-       ))
-*/
-   /*         
-    Future<void> signIn() async {
-  
-        try{
-          // ignore: deprecated_member_use
-          FirebaseUser user = (await _auth.signInWithEmailAndPassword(email: _email,password: _password)).user;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-          
-        } on FirebaseException catch(e) {
-          Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text(e.message),
-        ));
-        }
-      }
-         */       
+     
       Widget padded({Widget child}) {
         return new Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),

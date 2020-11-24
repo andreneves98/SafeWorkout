@@ -110,7 +110,6 @@ class _MapPageState extends State<MapPage> {
      setState(() {
        _controller=mapController;
      });
-   
   }
   _convertRadiansTodegrees(double radians){
      double degrees = (180 /math.pi) * radians;

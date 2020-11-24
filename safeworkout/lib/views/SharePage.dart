@@ -116,7 +116,7 @@ class _SharePageState extends State<SharePage> {
           ]
         )
       ),
-      drawer: globals.myDrawer
+      drawer:globals.myDrawer(context),
     );
   }
 

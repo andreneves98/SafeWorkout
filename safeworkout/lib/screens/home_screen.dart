@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: globals.myAppBar,
-      drawer: globals.myDrawer,
+      drawer: globals.myDrawer(context),
       body: _channel != null
           ? NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollDetails) {

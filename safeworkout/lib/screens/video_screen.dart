@@ -32,15 +32,14 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: globals.myAppBar,
-      drawer: globals.myDrawer,
+      drawer: globals.myDrawer(context),
       body:
       
         Container(
          child:Column(
               mainAxisAlignment: MainAxisAlignment.start,
 
-              children: [
-                
+              children: [   
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios_outlined),
                   onPressed: () {

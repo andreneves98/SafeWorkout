@@ -119,7 +119,7 @@ class _ExerciseInfoPageState extends State<ExerciseInfoPage> {
       )
       ),
     ),
-    drawer: globals.myDrawer,
+    drawer:globals.myDrawer(context),
     );
   }
    Future<bool> _onBackPressed() {

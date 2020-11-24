@@ -296,7 +296,7 @@ class _ExerciseListState extends State<ExerciseList> {
         ),
       ),
     ),
-    drawer:globals.myDrawer,
+    drawer:globals.myDrawer(context),
 
     );
   }

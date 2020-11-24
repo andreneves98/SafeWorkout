@@ -162,7 +162,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         )
       ),
 
-      drawer: globals.myDrawer
+      drawer: globals.myDrawer(context),
     );
   }
 }

@@ -39,7 +39,7 @@ class _YoutubeVPage extends State<YoutubeVPage> {
     return WillPopScope(
       child: Scaffold(
       appBar: globals.myAppBar,
-      drawer: globals.myDrawer,
+      drawer: globals.myDrawer(context),
       //bottomNavigationBar: globals.myBottomNavigationBar(context,_selectedIndex,_onItemTapped),
       body: 
       Container(
@@ -105,8 +105,7 @@ class _YoutubeVPage extends State<YoutubeVPage> {
                               //final String chInfo=channeList[index];
                               Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                           },
-                        
-                      child://BuildYoutubeCard(context,index,channelID[index])  ,
+                      child:
                         Card(
                           elevation: 5,
                               child:Row(
