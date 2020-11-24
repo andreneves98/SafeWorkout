@@ -83,3 +83,12 @@ Future<void>  updateFavorite() async{
        }
      });
 }
+
+String getFavoritesNames() {
+  String names = "";
+  for(var Exercise in favorites) {
+    names += Exercise.name + ",";
+  }
+
+  return names;
+}

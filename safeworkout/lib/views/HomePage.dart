@@ -145,7 +145,7 @@ Widget myDrawer(context){
             ListTile(
               leading: Icon(Icons.video_collection_outlined, color: Colors.green[300],),
               title: Text('Workout Videos'),
-              enabled:true,// globals.isLogged,
+              enabled: globals.isLogged,
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeVPage()));
               },

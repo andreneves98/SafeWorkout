@@ -57,7 +57,7 @@ class _SharePageState extends State<SharePage> {
                 Column(
                   children: [
                     QrImage(
-                      data: "123456789",
+                      data: globals.getFavoritesNames(),
                       version: QrVersions.auto,
                       size: 230,
                       //backgroundColor: Colors.lightBlue,
@@ -115,7 +115,8 @@ class _SharePageState extends State<SharePage> {
             )
           ]
         )
-      )
+      ),
+      drawer: globals.myDrawer
     );
   }
 
